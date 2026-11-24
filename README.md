@@ -17,6 +17,8 @@ Music and SFX are synthesized and sit at **50% of the voice level** (−6 dB). P
 - **Animated word-by-word captions** (spoken word in yellow), burned in only if you want them.
 - **A publishing pack**: thumbnail, 4:5 cover, and a platform-checked caption file.
 
+**v4.0** adds parallel rendering, label auto-fit, check.py config, `bootstrap.sh` and `export.sh` (see CHANGELOG.md).
+
 ## Requirements
 
 - Node.js 22.6+
@@ -29,6 +31,9 @@ Music and SFX are synthesized and sit at **50% of the voice level** (−6 dB). P
 ## Quick start
 
 ```bash
+# 0. (fresh machine) check tools and find Chrome
+bash bootstrap.sh && source .env.cartoon
+
 # 1. Set up a project from the kit
 bash kit/tools/setup.sh ~/shorts/my-short
 
@@ -49,7 +54,9 @@ node render.mjs frames "0-1059"
 python3 check.py frames
 CAPTIONS=work/words.json bash finish.sh "My Short Title"
 
-# 6. Publishing pack
+# 6. Or finish + publishing pack in one go (TITLE/POST_TITLE/DESC/TAGS/HOOK env, VARIANTS=1 for 1:1 and 16:9)
+#    bash export.sh "My Short Title"
+#    Publishing pack alone:
 python3 publish.py --frames frames --frame 60 --title "SHORT TITLE" \
   --post-title "Full post title" --desc "Caption text" --tags "#a #b"
 ```
@@ -68,6 +75,7 @@ kit/
   example/
     soldier/     # "The Soldier Who Never Left" — first worked example
     emu-war/     # Emu War short — second worked example (1153 frames)
+    wiretap/     # LIMS vs Spyware — third example (night city, labels, checks.json)
   vendor/        # toon.ts Pen library (MIT, see kit/vendor/NOTICE.md)
 assets/
   banner.png     # header image: three frames from the Emu War example
