@@ -1,0 +1,148 @@
+{
+ "duration": 38.448,
+ "frames30": 1153,
+ "source": "silence-align (cost 1.90)",
+ "segments": [
+  [
+   0.163583,
+   3.72579
+  ],
+  [
+   4.12637,
+   5.11446
+  ],
+  [
+   5.6895,
+   7.6865
+  ],
+  [
+   8.09479,
+   11.243
+  ],
+  [
+   11.8057,
+   15.6859
+  ],
+  [
+   16.1293,
+   17.4488
+  ],
+  [
+   17.8944,
+   20.7217
+  ],
+  [
+   21.3686,
+   22.9778
+  ],
+  [
+   23.3173,
+   25.0647
+  ],
+  [
+   25.674,
+   26.6953
+  ],
+  [
+   26.9079,
+   28.4638
+  ],
+  [
+   28.987,
+   29.5753
+  ],
+  [
+   29.9877,
+   32.4083
+  ],
+  [
+   32.7564,
+   35.2606
+  ],
+  [
+   35.8117,
+   36.5003
+  ],
+  [
+   37.0922,
+   38.1655
+  ]
+ ],
+ "phrases": [
+  {
+   "text": "Australia pernah mengirim tentara bersenapan mesin untuk melawan burung.",
+   "s": 0.164,
+   "e": 3.726
+  },
+  {
+   "text": "Burungnya yang menang.",
+   "s": 4.126,
+   "e": 5.114
+  },
+  {
+   "text": "Tahun 1932,",
+   "s": 5.689,
+   "e": 7.686
+  },
+  {
+   "text": "dua puluh ribu emu merusak ladang gandum di Australia Barat.",
+   "s": 8.095,
+   "e": 11.243
+  },
+  {
+   "text": "Maka tentara datang membawa dua senapan mesin dan sepuluh ribu peluru.",
+   "s": 11.806,
+   "e": 15.686
+  },
+  {
+   "text": "Tapi emu nggak mau berbaris.",
+   "s": 16.129,
+   "e": 17.449
+  },
+  {
+   "text": "Mereka pecah jadi kelompok kecil dan lari ke segala arah.",
+   "s": 17.894,
+   "e": 20.722
+  },
+  {
+   "text": "Menurut hitungan mayornya sendiri,",
+   "s": 21.369,
+   "e": 22.978
+  },
+  {
+   "text": "satu emu butuh sepuluh peluru.",
+   "s": 23.317,
+   "e": 25.065
+  },
+  {
+   "text": "Seminggu kemudian,",
+   "s": 25.674,
+   "e": 26.695
+  },
+  {
+   "text": "pemerintah menarik pasukannya.",
+   "s": 26.908,
+   "e": 28.464
+  },
+  {
+   "text": "Belakangan,",
+   "s": 28.987,
+   "e": 29.575
+  },
+  {
+   "text": "petani dengan senapan biasa dan hadiah kecil berhasil melakukan apa yang tentara nggak bisa.",
+   "s": 29.988,
+   "e": 35.261
+  },
+  {
+   "text": "Tentara pulang.",
+   "s": 35.812,
+   "e": 36.5
+  },
+  {
+   "text": "Emu-nya tetap tinggal.",
+   "s": 37.092,
+   "e": 38.166
+  }
+ ]
+}
