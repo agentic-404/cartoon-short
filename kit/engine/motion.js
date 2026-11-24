@@ -47,3 +47,12 @@ export const blinkAt = (f, seed) => { const per = 38 + (seed * 17) % 31, ph = (f
 export const walk = (f, f0, speed = 1.1, stride = 0.8) => { const t = Math.max(0, f - f0) / 30; return { dist: t * speed, phase: (t * speed / (2 * stride)) % 1 }; };
 /** Round values used in card keys so canvas redraws happen only when the pose visibly changes. */
 export const q = (x, n = 2) => Math.round(x * 10 ** n) / 10 ** n;
+
+/** v4: largest scale (<=1) at which a flat board/label of world width `w` (m) still fits the frame at `pos` for camera `C` {pos,look,fov}.
+ *  Vertical frame: half-width = d * tan(fov/2) * (1080/1920). margin 0.9 leaves a little air at the edges. Use it for every floating text board. */
+export const frameHalfWidth = (C, pos) => {
+  const f = [C.look[0] - C.pos[0], C.look[1] - C.pos[1], C.look[2] - C.pos[2]], l = Math.hypot(...f) || 1;
+  const d = ((pos[0] - C.pos[0]) * f[0] + (pos[1] - C.pos[1]) * f[1] + (pos[2] - C.pos[2]) * f[2]) / l;   // depth along the view axis
+  return Math.max(0.05, d) * Math.tan(C.fov * Math.PI / 360) * (1080 / 1920);
+};
+export const fitScale = (C, pos, w, margin = 0.9) => Math.min(1, (2 * frameHalfWidth(C, pos) * margin) / w);
