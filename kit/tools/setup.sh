@@ -8,7 +8,8 @@ cp "$KIT"/engine/*.js "$KIT"/engine/index.html "$P/web/"
 cp "$KIT"/example/soldier/story.js "$P/web/story.js"        # starting point: rewrite for the new story
 cp "$KIT"/example/soldier/audio.py "$P/audio.py"            # starting point: rewrite the cue table
 cp "$KIT"/tools/*.mjs "$KIT"/tools/*.py "$P/" 2>/dev/null || true
-for f in finish.sh preview.sh; do cp "$KIT/tools/$f" "$P/"; done   # (v2 forgot finish.sh)
+for f in finish.sh preview.sh export.sh; do cp "$KIT/tools/$f" "$P/"; done
+[ -f "$P/work/checks.json" ] || cp "$KIT/tools/checks.template.json" "$P/work/checks.json"   # v4: check.py config (flash ranges, ignore, dark_world)
 cp "$KIT"/library/props.js "$P/web/props.js.example"   # reusable prop builders, see kit/library/README.md
 # three.js r160 (module build). npm first, then a sparse git clone (works where only GitHub is reachable).
 if [ ! -f "$P/web/lib/three.module.js" ]; then
