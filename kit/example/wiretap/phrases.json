@@ -1,0 +1,234 @@
+{
+ "duration": 47.522,
+ "frames30": 1426,
+ "source": "silence-align (cost 0.73)",
+ "segments": [
+  [
+   0.189875,
+   1.429667
+  ],
+  [
+   1.804542,
+   2.802875
+  ],
+  [
+   3.208875,
+   4.145167
+  ],
+  [
+   4.613917,
+   5.013417
+  ],
+  [
+   5.48775,
+   5.867708
+  ],
+  [
+   6.441625,
+   7.372833
+  ],
+  [
+   8.08825,
+   9.5425
+  ],
+  [
+   10.046917,
+   11.895542
+  ],
+  [
+   12.436625,
+   13.838
+  ],
+  [
+   14.838083,
+   15.210208
+  ],
+  [
+   15.427083,
+   16.82975
+  ],
+  [
+   17.444208,
+   18.646625
+  ],
+  [
+   19.157042,
+   20.745167
+  ],
+  [
+   21.163792,
+   22.81425
+  ],
+  [
+   23.301375,
+   25.660292
+  ],
+  [
+   26.254208,
+   28.450417
+  ],
+  [
+   29.029792,
+   31.027
+  ],
+  [
+   32.027208,
+   32.872125
+  ],
+  [
+   33.415542,
+   35.072083
+  ],
+  [
+   35.679417,
+   38.278958
+  ],
+  [
+   38.730542,
+   41.154583
+  ],
+  [
+   41.555667,
+   42.761875
+  ],
+  [
+   43.175542,
+   44.257833
+  ],
+  [
+   44.610625,
+   45.811542
+  ],
+  [
+   46.123958,
+   47.197917
+  ]
+ ],
+ "phrases": [
+  {
+   "text": "Katanya presiden disadap.",
+   "s": 0.19,
+   "e": 1.43
+  },
+  {
+   "text": "Tapi pakai alat apa?",
+   "s": 1.805,
+   "e": 2.803
+  },
+  {
+   "text": "Ada dua kemungkinan.",
+   "s": 3.209,
+   "e": 4.145
+  },
+  {
+   "text": "Pertama,",
+   "s": 4.614,
+   "e": 5.013
+  },
+  {
+   "text": "LIMS.",
+   "s": 5.488,
+   "e": 5.868
+  },
+  {
+   "text": "Ini sadapan resmi.",
+   "s": 6.442,
+   "e": 7.373
+  },
+  {
+   "text": "Penyidik mengajukan permintaan,",
+   "s": 8.088,
+   "e": 9.543
+  },
+  {
+   "text": "operator telekomunikasi meneruskan,",
+   "s": 10.047,
+   "e": 11.896
+  },
+  {
+   "text": "dan semuanya tercatat di log.",
+   "s": 12.437,
+   "e": 13.838
+  },
+  {
+   "text": "Kedua,",
+   "s": 14.838,
+   "e": 15.21
+  },
+  {
+   "text": "spyware seperti Pegasus.",
+   "s": 15.427,
+   "e": 16.83
+  },
+  {
+   "text": "Ia tidak lewat operator.",
+   "s": 17.444,
+   "e": 18.647
+  },
+  {
+   "text": "Ia menyusup langsung ke ponsel,",
+   "s": 19.157,
+   "e": 20.745
+  },
+  {
+   "text": "bahkan tanpa kamu klik apa pun.",
+   "s": 21.164,
+   "e": 22.814
+  },
+  {
+   "text": "Polri menyebut yang dipakai adalah LIMS.",
+   "s": 23.301,
+   "e": 25.66
+  },
+  {
+   "text": "Sebagian pengamat menduga ada spyware.",
+   "s": 26.254,
+   "e": 28.45
+  },
+  {
+   "text": "Keduanya belum dibuktikan di pengadilan.",
+   "s": 29.03,
+   "e": 31.027
+  },
+  {
+   "text": "Bedanya penting.",
+   "s": 32.027,
+   "e": 32.872
+  },
+  {
+   "text": "Sadapan resmi meninggalkan jejak.",
+   "s": 33.416,
+   "e": 35.072
+  },
+  {
+   "text": "Spyware berusaha tidak meninggalkan apa-apa.",
+   "s": 35.679,
+   "e": 38.279
+  },
+  {
+   "text": "Karena itu yang harus diawasi bukan cuma alatnya,",
+   "s": 38.731,
+   "e": 41.155
+  },
+  {
+   "text": "tapi izin dan lognya.",
+   "s": 41.556,
+   "e": 42.762
+  },
+  {
+   "text": "Siapa yang meminta,",
+   "s": 43.176,
+   "e": 44.258
+  },
+  {
+   "text": "siapa yang menyetujui,",
+   "s": 44.611,
+   "e": 45.812
+  },
+  {
+   "text": "siapa yang menghapus.",
+   "s": 46.124,
+   "e": 47.198
+  }
+ ]
+}
