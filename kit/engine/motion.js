@@ -6,6 +6,7 @@ export const lerp3 = (a, b, t) => a.map((v, i) => lerp(v, b[i], t));
 export const ramp = (f, a, b) => clamp((f - a) / (b - a));
 export const M = {
   smooth: (t) => { t = clamp(t); return t * t * t * (t * (t * 6 - 15) + 10); },           // smootherstep (glides)
+  linear: (t) => clamp(t),                                                                // constant speed (use when the camera must track a steadily moving card)
   easeOut: (t) => 1 - Math.pow(1 - clamp(t), 3),                                          // fast start, soft land (reference "burst" moves)
   easeIn: (t) => Math.pow(clamp(t), 3),
   back: (t, s = 1.7) => { t = clamp(t) - 1; return t * t * ((s + 1) * t + s) + 1; },        // overshoot then settle (pops, arrivals)
@@ -56,3 +57,32 @@ export const frameHalfWidth = (C, pos) => {
   return Math.max(0.05, d) * Math.tan(C.fov * Math.PI / 360) * (1080 / 1920);
 };
 export const fitScale = (C, pos, w, margin = 0.9) => Math.min(1, (2 * frameHalfWidth(C, pos) * margin) / w);
+
+/** v5 lip-sync: `MOUTH` is the per-frame string written by tools/lipsync.py (web/mouth.js). lipAt returns a mouth kind for the card
+ *  option `mouth` ('dash' closed, 'o' small round, 'O' open, 'grin' wide) or undefined when nobody is speaking (keep the expression's mouth).
+ *  Use only for the character who is "saying" the line:  man('grin', pos, { mouth: lipAt(MOUTH, f, 1070, 1113) }). */
+export const lipAt = (MOUTH, f, a = 0, b = 1e9) => (f < a || f > b || f >= MOUTH.length ? undefined : ({ c: 'dash', o: 'o', O: 'O', g: 'grin' })[MOUTH[f]]);
+
+/** v5 camera presets: each returns an array of keys for camFromKeys (concatenate with spread: [...CAM.dolly({...}), ...CAM.orbit({...})]; later keys win at shared frames).
+ *  target = [x,y,z] the camera looks at. All moves are smooth (camFromKeys eases); holds still creep. Distances are metres; angles radians.
+ *  dolly      push in/out along a line            CAM.dolly({ f0, f1, target, from, to, fov })
+ *  orbit      arc around target (spline path)     CAM.orbit({ f0, f1, target, r, h, a0, a1, fov })       a=0 is +z side, positive turns toward +x
+ *  whip       fast pan A -> B with a roll kick    CAM.whip({ f0, f1, a:{pos,look}, b:{pos,look}, fov })  (f1-f0 ~ 5-8 frames)
+ *  crane      rise (or sink) while looking at it  CAM.crane({ f0, f1, target, pos, dy, fov })
+ *  shoulder   over-the-shoulder: camera behind and beside a foreground actor looking past them at target  CAM.shoulder({ f0, f1, actor, target, side, dist, fov })
+ *  dutch      tilted establishing hold            CAM.dutch({ f0, f1, pos, look, roll, fov }) */
+export const CAM = {
+  dolly: ({ f0, f1, target, from, to, fov = 36, fov2 }) => [{ f: f0, pos: from, look: target, fov }, { f: f1, pos: to, look: target, fov: fov2 ?? fov }],
+  orbit: ({ f0, f1, target, r = 6, h = 1.6, a0 = -0.5, a1 = 0.5, fov = 36 }) => {
+    const P = (a) => [target[0] + r * Math.sin(a), h, target[2] + r * Math.cos(a)], mid = [0.25, 0.5, 0.75].map((u) => P(lerp(a0, a1, u)));
+    return [{ f: f0, pos: P(a0), look: target, fov }, { f: f1, pos: P(a1), look: target, fov, path: mid }];
+  },
+  whip: ({ f0, f1, a, b, fov = 36, roll = 8 }) => [{ f: f0, pos: a.pos, look: a.look, fov }, { f: (f0 + f1) >> 1, pos: lerp3(a.pos, b.pos, 0.5), look: lerp3(a.look, b.look, 0.5), fov: fov * 1.1, roll, ease: 'easeIn' }, { f: f1, pos: b.pos, look: b.look, fov, roll: 0, ease: 'easeOut' }],
+  crane: ({ f0, f1, target, pos, dy = 3, fov = 38 }) => [{ f: f0, pos, look: target, fov }, { f: f1, pos: [pos[0], pos[1] + dy, pos[2]], look: target, fov }],
+  shoulder: ({ f0, f1, actor, target, side = 1, dist = 2.2, fov = 34 }) => {
+    const d = [target[0] - actor[0], 0, target[2] - actor[2]], l = Math.hypot(d[0], d[2]) || 1, u = [d[0] / l, 0, d[2] / l], n = [-u[2], 0, u[0]];
+    const pos = [actor[0] - u[0] * dist + n[0] * 0.55 * side, actor[1] + 1.5, actor[2] - u[2] * dist + n[2] * 0.55 * side];
+    return [{ f: f0, pos, look: target, fov }, { f: f1, pos: [pos[0] + u[0] * 0.25, pos[1], pos[2] + u[2] * 0.25], look: target, fov: fov * 0.96 }];
+  },
+  dutch: ({ f0, f1, pos, look, roll = 9, fov = 40 }) => [{ f: f0, pos, look, fov, roll }, { f: f1, pos, look, fov: fov * 0.96, roll: roll * 0.8 }],
+};

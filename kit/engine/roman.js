@@ -208,7 +208,11 @@ export const romanFront = (p, key, opts = {}) => {
     p.clip(bd, () => { for (let i = -3; i <= 3; i++) p.stroke([[cx + i * 9 * u, hc + 0.45 * H.b], [cx + i * 7 * u, hc + 1.35 * H.b]], 1.2 * u, "#c9c4bb"); });
     p.inkRing(bd, ow * 0.8, thick);
   }
-  faceFront(p, cx, hc, W, expr, facing, look, lid, helmet, skin, O.beard ? O.beard : O.moustache, !!O.stout);
+  { // v5 lip-sync: opts.mouth overrides the mouth kind of the current expression for this draw only (dash o O grin laugh smile ...)
+    const F0 = FACE[expr], mk = opts.mouth; if (mk && F0) FACE[expr] = { ...F0, mouth: mk };
+    faceFront(p, cx, hc, W, expr, facing, look, lid, helmet, skin, O.beard ? O.beard : O.moustache, !!O.stout);
+    if (mk && F0) FACE[expr] = F0;
+  }
   if (O.brows) for (const s of [-1, 1]) p.ell(cx + 7 * u * facing + s * 14 * u, hc - 20 * u, 11 * u, 5 * u, O.brows, 2 * u);
   if (O.beard) { // re-draw the mouth over the beard for open mouths
     if (expr === "shock" || expr === "snore") p.ell(cx + 8 * u * facing, hc + 22 * u, 6 * u, 7 * u, "#5a1e28", 2 * u);
