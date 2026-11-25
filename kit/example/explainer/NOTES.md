@@ -1,0 +1,3 @@
+# Example: explainer mode (flow diagram, no 3D world)
+Build: `python3 kit/tools/assemble.py kit/example/wiretap/web/main.js kit/example/explainer/web/world.part.js web/main.js`; copy `story.js`, `kit/library/explainer.js` into `web/` (world.part.js imports `./explainer.js`; a top-level import in the middle of main.js is valid ES, tested).
+Pattern: story.js `worldAt` returns `W.explain = { nodes, arrows, packets }` per frame; nodes pop in with `M.back`, arrows draw with `ramp`, packets loop with `(f-f0)%period`. The 9:16 frame is only ~4 m wide at 11 m, so lay flows out vertically (zig-zag) with node w ~1.9 and keep them above the caption band (bottom ~30 % of the frame). Combine with CAM presets (dolly, dutch) and `lipsync`-free narration.
