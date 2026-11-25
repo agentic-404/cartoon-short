@@ -17,7 +17,7 @@ Music and SFX are synthesized and sit at **50% of the voice level** (−6 dB). P
 - **Animated word-by-word captions** (spoken word in yellow), burned in only if you want them.
 - **A publishing pack**: thumbnail, 4:5 cover, and a platform-checked caption file.
 
-**v4.0** adds parallel rendering, label auto-fit, check.py config, `bootstrap.sh` and `export.sh` (see CHANGELOG.md).
+**v5.0** adds lip-sync, camera and music presets, an explainer mode and themed sets (see CHANGELOG.md); **v4.1** added a pre-render framing check (`framing.mjs`), `assemble.py`, caption keyword highlight, a fixed `check.py` ignore list and an underwater example; **v4.0** added parallel rendering, label auto-fit, check.py config, `bootstrap.sh` and `export.sh` (see CHANGELOG.md).
 
 ## Requirements
 
