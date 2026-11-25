@@ -3,6 +3,8 @@
 # Checks node >= 22.6, python3 + numpy + Pillow, ffmpeg, git and a usable Chrome, then writes ./.env.cartoon
 # with CHROME_PATH. Source it before rendering:  source .env.cartoon
 set -u
+# v4.1: `bash bootstrap.sh --update` pulls the latest kit from GitHub first (git pull --ff-only), then runs the checks.
+if [ "${1:-}" = "--update" ]; then git -C "$(dirname "$0")" pull --ff-only && echo "kit updated: $(cat "$(dirname "$0")/VERSION")" || echo "update failed (offline or local changes?) - continuing with the local kit"; fi
 ok=1; say(){ printf '%-14s %s\n' "$1" "$2"; }; bad(){ ok=0; say "$1" "MISSING - $2"; }
 if command -v node >/dev/null; then
   v=$(node -p "process.versions.node"); IFS=. read -r a b _ <<<"$v"
