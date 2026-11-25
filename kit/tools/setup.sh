@@ -10,6 +10,7 @@ cp "$KIT"/example/soldier/audio.py "$P/audio.py"            # starting point: re
 cp "$KIT"/tools/*.mjs "$KIT"/tools/*.py "$P/" 2>/dev/null || true
 for f in finish.sh preview.sh export.sh; do cp "$KIT/tools/$f" "$P/"; done
 [ -f "$P/work/checks.json" ] || cp "$KIT/tools/checks.template.json" "$P/work/checks.json"   # v4: check.py config (flash ranges, ignore, dark_world)
+cp "$KIT"/library/explainer.js "$KIT"/library/sets.js "$P/web/" 2>/dev/null || true   # v5: flow-diagram builder + themed sets
 cp "$KIT"/library/props.js "$P/web/props.js.example"   # reusable prop builders, see kit/library/README.md
 # three.js r160 (module build). npm first, then a sparse git clone (works where only GitHub is reachable).
 if [ ! -f "$P/web/lib/three.module.js" ]; then

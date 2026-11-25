@@ -1,4 +1,5 @@
 // usage: node render.mjs <outdir> <frames: "a-b" or "1,2,3"> [step] [quality]
+// v4.1: opt-in duplicate skipping: if the page defines window.frameKey(f) (a string that changes whenever ANYTHING visible changes, incl. ambient motion), frames with an unchanged key are copied instead of rendered.
 // v4: WORKERS=n renders in n parallel Chromium processes (default: min(2, cpu cores) for >24 frames, else 1). RESUME=1 skips frames that exist.
 import { chromium } from 'playwright'; import http from 'http'; import fs from 'fs'; import path from 'path'; import os from 'os';
 import { spawn } from 'child_process'; import { fileURLToPath } from 'url';
@@ -30,9 +31,12 @@ await pg.goto(`http://localhost:${srv.address().port}/index.html?s=${SC}${proces
 await pg.waitForFunction(() => window.ready || window.err, null, { timeout: 180000 });
 if (await pg.evaluate(() => window.err)) { console.log('page error'); process.exit(1); }
 const t0 = Date.now();
+let lastKey = null, lastFile = null, copied = 0;
 for (const f of frames) {
+  const key = await pg.evaluate((f) => (window.frameKey ? String(window.frameKey(f)) : null), f);
+  if (key !== null && key === lastKey && lastFile) { fs.copyFileSync(lastFile, path.join(outdir, pad(f))); copied++; continue; }
   const d = await pg.evaluate(([f, q]) => { if (window.location.hash==="#nd") window.DEBUG_ND=1; if (window.location.hash==="#e") window.DEBUG_E=1; window.renderFrame(f); return document.getElementById('c').toDataURL('image/jpeg', q); }, [f, +qual]);
-  fs.writeFileSync(path.join(outdir, pad(f)), Buffer.from(d.split(',')[1], 'base64'));
+  fs.writeFileSync(path.join(outdir, pad(f)), Buffer.from(d.split(',')[1], 'base64')); lastKey = key; lastFile = path.join(outdir, pad(f));
 }
-console.log(`done ${frames.length} frames, ${((Date.now() - t0) / Math.max(1, frames.length) / 1000).toFixed(2)} s/frame`);
+console.log(`done ${frames.length} frames, ${((Date.now() - t0) / Math.max(1, frames.length) / 1000).toFixed(2)} s/frame${copied ? `, ${copied} duplicates copied` : ''}`);
 await b.close(); srv.close();

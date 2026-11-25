@@ -10,7 +10,7 @@ ap.add_argument("--config", default="work/checks.json", help="optional JSON: {\"
 A = ap.parse_args()
 import json
 CFG = json.load(open(A.config)) if os.path.exists(A.config) else {}
-IGN = set(CFG.get("ignore", [])); DARK_WORLD = bool(CFG.get("dark_world"))   # dark_world: night scenes, a dark ground is intended -> no horizon-band check
+IGN = [str(x).lower() for x in CFG.get("ignore", [])]; DARK_WORLD = bool(CFG.get("dark_world"))   # dark_world: night scenes, a dark ground is intended -> no horizon-band check
 FLASH_OK = [tuple(r) for r in CFG.get("flash", [])]
 def in_flash(n, pad=3): return any(a - pad <= n <= b + pad for a, b in FLASH_OK)
 def load(p):
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     def pick(i): return [nums[k] for k, r in enumerate(R) if r[i]]
     for name, idx in (("black frames", 2), ("white block at top (not a flash)", 3), ("dark horizon band", 4)):
         v = [n for n in pick(idx) if not (idx != 2 and in_flash(n))]
-        if name in IGN: v = []
+        if any(i in name.lower() or name.lower() in i for i in IGN): v = []   # v4.1: partial names work ("white block", "horizon")
         if v: bad.append(name); print(f"FLAG {name}: {rng(v)}")
     # frozen runs
     run = 1; fr = []
@@ -55,10 +55,11 @@ if __name__ == "__main__":
         same = np.abs(R[k][0] - R[k - 1][0]).mean() < 0.02 and not R[k][1]
         run = run + 1 if same else 1
         if run == int(A.fps * 0.4): fr.append(nums[k] - run + 1)
+    if any(i in "frozen" or "frozen" in i for i in IGN): fr = []
     if fr: bad.append("frozen"); print("FLAG frozen >=0.4 s starting at frames:", rng(fr))
     # flicker: single-frame mean jump that returns
     m = np.array([r[0].mean() for r in R]); fl = [nums[k] for k in range(1, len(m) - 1) if abs(m[k] - m[k - 1]) > 18 and abs(m[k] - m[k + 1]) > 18 and not any(R[j][1] for j in range(max(0, k - 10), k + 1)) and not in_flash(nums[k])]
-    if "flicker" in IGN: fl = []
+    if any(i in "flicker" or "flicker" in i for i in IGN): fl = []
     if fl: bad.append("flicker"); print("FLAG flicker:", rng(fl))
     fls = pick(1)
     print(f"{len(fs)} frames checked; flash frames (allowed): {rng(fls) if fls else 'none'}")

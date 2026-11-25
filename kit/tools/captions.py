@@ -8,10 +8,13 @@ from PIL import Image, ImageDraw, ImageFont
 ap = argparse.ArgumentParser(); ap.add_argument("fin"); ap.add_argument("fout"); ap.add_argument("words")
 ap.add_argument("--y", type=int, default=1440); ap.add_argument("--fps", type=float, default=30); ap.add_argument("--size", type=int, default=92)
 ap.add_argument("--font", default=""); ap.add_argument("--max", type=int, default=3)
+ap.add_argument("--hl", default="", help="v4.1: comma-separated keywords to highlight in orange (e.g. --hl sate,ikan,racun); a file path also works (one word per line)")
 A = ap.parse_args()
 FONTS = [A.font, "/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"]
 FONT = next(f for f in FONTS if f and os.path.exists(f))
 W = json.load(open(A.words))
+_hl = open(A.hl).read().split() if A.hl and os.path.exists(A.hl) else [x for x in A.hl.replace(" ", "").split(",") if x]
+HL = {x.lower().strip(",.!?:;") for x in _hl}
 # --- chunking
 chunks, cur = [], []
 for i, w in enumerate(W):
@@ -34,7 +37,7 @@ def font(sz):
     return _cache[sz]
 def layer(k, cw, pop):
     """RGBA layer (1080x~400) for chunk k, current word index cw (or -1), pop scale 1..1.18"""
-    c = chunks[k]; words = [W[i]["w"].strip(",.!?:;").upper() for i in c]
+    c = chunks[k]; words = [W[i]["w"].strip(",.!?:;").upper() for i in c]; hl = [W[i]["w"].strip(",.!?:;").lower() in HL for i in c]
     f0 = font(A.size); gap = 26; maxw = 960
     # wrap into lines
     lines, line, lw = [], [], 0
@@ -50,7 +53,7 @@ def layer(k, cw, pop):
         tw = sum(font(int(A.size * (pop if j == cw else 1.0))).getlength(words[j]) for j in ln) + gap * (len(ln) - 1); x = (1080 - tw) / 2
         for j in ln:
             sz = int(A.size * (pop if j == cw else 1.0)); f = font(sz); wd = f0.getlength(words[j])
-            col = (255, 214, 10, 255) if j == cw else ((255, 255, 255, 255) if j < cw or cw < 0 else (255, 255, 255, 195))
+            col = (255, 214, 10, 255) if j == cw else (255, 122, 40, 255) if hl[j] and (j < cw or cw < 0) else (255, 160, 90, 200) if hl[j] else ((255, 255, 255, 255) if j < cw or cw < 0 else (255, 255, 255, 195))
             off = (f.getlength(words[j]) - wd) / 2; yy = y - (sz - A.size) * 0.5
             d.text((x, yy), words[j], font=f, fill=col, stroke_width=9, stroke_fill=(10, 8, 12, 255 if (j <= cw or cw < 0) else 170))
             x += f.getlength(words[j]) - off * 0 + gap
