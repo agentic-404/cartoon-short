@@ -91,6 +91,7 @@ scene.fog = new THREE.Fog('#ffffff', 40, 600);
 
 const waterU = { deep: { value: new THREE.Color() }, shal: { value: new THREE.Color() }, glint: { value: new THREE.Color() } };
 
+// @@WORLD-BEGIN
 // ---------- world: "jalur sadap" explainer stage ----------
 const DECK = 0;
 const world = new THREE.Group(); scene.add(world);
@@ -233,6 +234,7 @@ function worldState(S, f) {
   screenMat.map = S.infected ? badTex : chatTex; phone.position.x = 9 + (S.infected ? 0.05 * Math.sin(f * 1.7) : 0); phone.rotation.z = S.infected ? 0.03 * Math.sin(f * 2.3) : 0;
 }
 
+// @@WORLD-END (everything above this marker down to WORLD-BEGIN is replaceable; see kit/tools/assemble.py)
 // ---------- cards ----------
 const CW = 1200, CH = 2000, CM = 2.25; // canvas px, card height in metres (design 600x1000 -> 2.25 m)
 const cardGeo = new THREE.PlaneGeometry(CM * 0.6, CM); cardGeo.translate(0, CM / 2 - CM * 0.025, 0);
